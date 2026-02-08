@@ -7,6 +7,12 @@ import {
   Calendar, TrendingUp, Shield, Heart, ArrowLeft, X 
 } from 'lucide-react';
 import { generateDashboardUI } from '@/services/tambo-ui-generator';
+import AppShell from '@/components/ui/AppShell';
+import StatCard from '@/components/ui/StatCard';
+import ActionCard from '@/components/ui/ActionCard';
+import QuestCard from '@/components/ui/QuestCard';
+import PrimaryButton from '@/components/ui/PrimaryButton';
+import SecondaryButton from '@/components/ui/SecondaryButton';
 
 interface DashboardEnhancedProps {
   syllabus: any;
@@ -94,9 +100,17 @@ export default function DashboardEnhanced({ syllabus, onNavigate }: DashboardEnh
   }));
 
   return (
-    <div className="w-full h-full overflow-y-auto" style={{ backgroundColor: '#f5f5f5' }}>
-      {/* Hero Section with Player Card */}
-      <div className="relative overflow-hidden">
+    <AppShell
+      navProps={{
+        showBack: true,
+        showClose: true,
+        onBack: () => onNavigate('upload'),
+        onClose: () => onNavigate('landing'),
+      }}
+    >
+      <div className="w-full h-[calc(100vh-80px)] overflow-y-auto" style={{ backgroundColor: '#F5F5F5' }}>
+        {/* Hero Section with Player Card */}
+        <div className="relative overflow-hidden">
         <div className="relative px-4 sm:px-8 py-8 max-w-7xl mx-auto">
           {/* Navigation Buttons */}
           <div className="mb-6 flex items-center justify-between">
@@ -134,71 +148,36 @@ export default function DashboardEnhanced({ syllabus, onNavigate }: DashboardEnh
 
           {/* Player Stats Cards - Modern Card Layout */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            {/* XP EARNED Card */}
-            <div className="bg-white/70 backdrop-blur-xl rounded-3xl border border-[#61210F]/20 p-6 shadow-xl hover:shadow-2xl transition-all">
-              <div className="flex items-center justify-between mb-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#3FDFD5] to-[#61210F] flex items-center justify-center shadow-lg">
-                  <Trophy className="text-white" size={20} />
-                </div>
-              </div>
-              <p className="text-4xl font-bold mb-1" style={{ color: '#61210F' }}>{playerStats.xp}</p>
-              <p className="text-sm mb-2 font-medium" style={{ color: '#61210F' }}>XP Earned</p>
-              <div className="w-full rounded-full h-2 overflow-hidden bg-white/50 backdrop-blur-sm">
-                <div
-                  className="h-full transition-all duration-500 rounded-full"
-                  style={{ width: `${xpPercentage}%`, background: 'linear-gradient(90deg, #3FDFD5, #61210F)' }}
-                />
-              </div>
-              <p className="text-xs mt-2 font-medium" style={{ color: '#61210F' }}>+15 Level Progress</p>
-            </div>
-
-            {/* FOCUS TIME Card */}
-            <div className="bg-white/70 backdrop-blur-xl rounded-3xl border border-[#3FDFD5]/30 p-6 shadow-xl hover:shadow-2xl transition-all">
-              <div className="flex items-center justify-between mb-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#61210F] to-[#3FDFD5] flex items-center justify-center shadow-lg">
-                  <Target className="text-white" size={20} />
-                </div>
-              </div>
-              <p className="text-4xl font-bold mb-1" style={{ color: '#61210F' }}>0h 0m</p>
-              <p className="text-sm mb-2 font-medium" style={{ color: '#61210F' }}>Focus Time</p>
-              <div className="w-full rounded-full h-2 overflow-hidden bg-white/50 backdrop-blur-sm">
-                <div
-                  className="h-full transition-all duration-500 rounded-full"
-                  style={{ width: `${playerStats.focus}%`, background: 'linear-gradient(90deg, #61210F, #3FDFD5)' }}
-                />
-              </div>
-              <p className="text-xs mt-2 font-medium" style={{ color: '#61210F' }}>+2 Streak Days</p>
-            </div>
-
-            {/* INTERVIEW READY Card */}
-            <div className="bg-white/70 backdrop-blur-xl rounded-3xl border border-[#3FDFD5]/30 p-6 shadow-xl hover:shadow-2xl transition-all">
-              <div className="flex items-center justify-between mb-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#3FDFD5] to-[#61210F] flex items-center justify-center shadow-lg">
-                  <Shield className="text-white" size={20} />
-                </div>
-              </div>
-              <p className="text-4xl font-bold mb-1" style={{ color: '#61210F' }}>{playerStats.interviewReadiness}%</p>
-              <p className="text-sm mb-2 font-medium" style={{ color: '#61210F' }}>Interview Ready</p>
-              <div className="w-full rounded-full h-2 overflow-hidden bg-white/50 backdrop-blur-sm">
-                <div
-                  className="h-full transition-all duration-500 rounded-full"
-                  style={{ width: `${playerStats.interviewReadiness}%`, background: 'linear-gradient(90deg, #3FDFD5, #61210F)' }}
-                />
-              </div>
-              <p className="text-xs mt-2 font-medium" style={{ color: '#61210F' }}>Keep practicing!</p>
-            </div>
-
-            {/* CURRENT STREAK Card */}
-            <div className="bg-white/70 backdrop-blur-xl rounded-3xl border border-[#61210F]/30 p-6 shadow-xl hover:shadow-2xl transition-all">
-              <div className="flex items-center justify-between mb-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#61210F] to-[#3FDFD5] flex items-center justify-center shadow-lg">
-                  <Flame className="text-white" size={20} />
-                </div>
-              </div>
-              <p className="text-4xl font-bold mb-1" style={{ color: '#61210F' }}>{playerStats.streak}</p>
-              <p className="text-sm mb-2 font-medium" style={{ color: '#61210F' }}>Current Streak</p>
-              <p className="text-xs font-medium" style={{ color: '#61210F' }}>Days in a row</p>
-            </div>
+            <StatCard
+              icon={Trophy}
+              label="XP Earned"
+              value={playerStats.xp}
+              progress={xpPercentage}
+              progressLabel="+15 Level Progress"
+              iconColor="#3FDFD5"
+            />
+            <StatCard
+              icon={Target}
+              label="Focus Time"
+              value="0h 0m"
+              progress={playerStats.focus}
+              progressLabel="+2 Streak Days"
+              iconColor="#61210F"
+            />
+            <StatCard
+              icon={Shield}
+              label="Interview Ready"
+              value={`${playerStats.interviewReadiness}%`}
+              progress={playerStats.interviewReadiness}
+              progressLabel="Keep practicing!"
+              iconColor="#3FDFD5"
+            />
+            <StatCard
+              icon={Flame}
+              label="Current Streak"
+              value={playerStats.streak}
+              iconColor="#61210F"
+            />
           </div>
         </div>
       </div>
@@ -225,38 +204,14 @@ export default function DashboardEnhanced({ syllabus, onNavigate }: DashboardEnh
               
               <div className="space-y-3">
                 {dailyQuests.map(quest => (
-                  <div
+                  <QuestCard
                     key={quest.id}
-                    className={`p-4 rounded-2xl border backdrop-blur-sm transition-all ${
-                      quest.completed
-                        ? 'bg-[#3FDFD5]/20 border-[#3FDFD5]/40'
-                        : 'bg-white/40 border-[#61210F]/20 hover:border-[#3FDFD5]/40'
-                    }`}
-                  >
-                    <div className="flex items-start justify-between mb-2">
-                      <p className="text-sm font-semibold flex-1" style={{ color: '#61210F' }}>{quest.title}</p>
-                      <div className="flex items-center gap-1 text-xs font-semibold" style={{ color: '#3FDFD5' }}>
-                        <Zap size={12} />
-                        {quest.xp}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1 bg-white/50 backdrop-blur-sm rounded-full h-2 overflow-hidden">
-                        <div
-                          className="h-full transition-all duration-500 rounded-full"
-                          style={{ 
-                            width: `${(quest.progress / quest.total) * 100}%`,
-                            background: quest.completed 
-                              ? 'linear-gradient(90deg, #3FDFD5, #61210F)' 
-                              : 'linear-gradient(90deg, #61210F, #3FDFD5)'
-                          }}
-                        />
-                      </div>
-                      <p className="text-xs font-semibold" style={{ color: '#61210F' }}>
-                        {quest.progress}/{quest.total}
-                      </p>
-                    </div>
-                  </div>
+                    title={quest.title}
+                    progress={quest.progress}
+                    total={quest.total}
+                    xp={quest.xp}
+                    completed={quest.completed}
+                  />
                 ))}
               </div>
 
@@ -297,31 +252,20 @@ export default function DashboardEnhanced({ syllabus, onNavigate }: DashboardEnh
           <div className="lg:col-span-2 space-y-6">
             {/* Quick Actions */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <button
+              <ActionCard
+                icon={BookOpen}
+                title="Skill Tree"
+                description="Explore your learning path"
+                iconColor="#3FDFD5"
                 onClick={() => onNavigate('skillTree')}
-                className="group relative overflow-hidden bg-white/70 backdrop-blur-xl hover:bg-white/80 rounded-3xl border border-[#3FDFD5]/30 p-6 transition-all hover:scale-[1.02] shadow-xl hover:shadow-2xl"
-              >
-                <div className="relative z-10">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#3FDFD5] to-[#61210F] flex items-center justify-center mb-3 shadow-lg">
-                    <BookOpen className="text-white" size={32} />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2" style={{ color: '#61210F' }}>Skill Tree</h3>
-                  <p className="text-sm font-medium" style={{ color: '#61210F' }}>Explore your learning path</p>
-                </div>
-              </button>
-
-              <button
+              />
+              <ActionCard
+                icon={Target}
+                title="Cozy Room"
+                description="Focus in your study space"
+                iconColor="#61210F"
                 onClick={() => onNavigate('cozyRoom')}
-                className="group relative overflow-hidden bg-white/70 backdrop-blur-xl hover:bg-white/80 rounded-3xl border border-[#61210F]/30 p-6 transition-all hover:scale-[1.02] shadow-xl hover:shadow-2xl"
-              >
-                <div className="relative z-10">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#61210F] to-[#3FDFD5] flex items-center justify-center mb-3 shadow-lg">
-                    <Target className="text-white" size={32} />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2" style={{ color: '#61210F' }}>Cozy Room</h3>
-                  <p className="text-sm font-medium" style={{ color: '#61210F' }}>Focus in your study space</p>
-                </div>
-              </button>
+              />
             </div>
 
             {/* Units Overview */}
@@ -417,6 +361,7 @@ export default function DashboardEnhanced({ syllabus, onNavigate }: DashboardEnh
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </AppShell>
   );
 }

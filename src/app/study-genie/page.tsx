@@ -58,7 +58,41 @@ export default function StudyGeniePage() {
   });
 
   const handleSyllabusUpload = (data: Syllabus) => {
-    setSyllabus(data);
+    console.log('[Page] 📥 Syllabus uploaded (raw):', data);
+    
+    // Ensure data structure matches demo format exactly
+    const processedData: Syllabus = {
+      curriculum: data.curriculum || 'AI-Generated Curriculum',
+      units: (data.units || []).map((unit: any, unitIdx: number) => ({
+        id: unit.id || `unit-${unitIdx + 1}`,
+        name: unit.name || unit.title || `Unit ${unitIdx + 1}`,
+        topics: (unit.topics || []).map((topic: any, topicIdx: number) => ({
+          id: topic.id || `${unit.id || `unit-${unitIdx + 1}`}-${topicIdx + 1}`,
+          name: topic.name || topic.title || `Topic ${topicIdx + 1}`,
+          difficulty: topic.difficulty || 'Medium',
+          status: topic.status || 'inProgress',
+          xp: topic.xp || 200,
+        }))
+      }))
+    };
+    
+    console.log('[Page] ✅ Processed syllabus:', {
+      curriculum: processedData.curriculum,
+      unitsCount: processedData.units.length,
+      totalTopics: processedData.units.reduce((sum: number, u: any) => sum + (u.topics?.length || 0), 0),
+      units: processedData.units.map((u: any) => ({
+        name: u.name,
+        topicsCount: u.topics.length
+      }))
+    });
+    
+    if (processedData.units.length === 0) {
+      console.error('[Page] ❌ No units found in syllabus!');
+      alert('⚠️ No topics found in the uploaded syllabus. Please check the PDF content.');
+      return;
+    }
+    
+    setSyllabus(processedData);
     setIsDemoMode(false);
     setCurrentView('dashboard');
   };
@@ -111,7 +145,10 @@ export default function StudyGeniePage() {
     setShowScoreCard(true);
   };
 
-  const handleNavigate = (view: string) => {
+  const handleNavigate = (view: string, topic?: any) => {
+    if (topic) {
+      setSelectedTopic(topic);
+    }
     setCurrentView(view as ViewType);
   };
 
@@ -195,22 +232,40 @@ export default function StudyGeniePage() {
           <CombatMode
             topic={selectedTopic}
             onComplete={handleCombatComplete}
-            onNavigate={handleNavigate}
+            onNavigate={(view) => {
+              if (view === 'skillTree') {
+                setSelectedTopic(null);
+              }
+              handleNavigate(view);
+            }}
           />
         )}
 
         {currentView === 'editor' && selectedTopic && (
           <PracticeEditorEnhanced 
-            topic={selectedTopic.name} 
-            onNavigate={handleNavigate}
+            topic={selectedTopic.name || selectedTopic.title || selectedTopic.topic || selectedTopic} 
+            onNavigate={(view) => {
+              if (view === 'skillTree') {
+                setSelectedTopic(null);
+              }
+              handleNavigate(view);
+            }}
           />
         )}
 
         {currentView === 'flashcards' && selectedTopic && (
           <FlashcardView
             topic={selectedTopic}
-            onComplete={() => handleNavigate('skillTree')}
-            onNavigate={handleNavigate}
+            onComplete={() => {
+              setSelectedTopic(null);
+              handleNavigate('skillTree');
+            }}
+            onNavigate={(view) => {
+              if (view === 'skillTree') {
+                setSelectedTopic(null);
+              }
+              handleNavigate(view);
+            }}
           />
         )}
       </div>

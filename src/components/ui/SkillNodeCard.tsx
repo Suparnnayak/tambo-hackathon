@@ -8,6 +8,7 @@ interface SkillNodeCardProps {
     id: string;
     name?: string;
     title?: string;
+    topic?: string;
     difficulty?: string;
     status?: string;
   };

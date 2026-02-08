@@ -8,10 +8,12 @@ import ActionCard from '@/components/ui/ActionCard';
 interface TopicModalProps {
   topic: any;
   onClose: () => void;
-  onNavigate: (view: string, topic?: any) => void;
+  onNavigate?: (view: string, topic?: any) => void;
+  onStartQuiz?: () => void;
+  onStartPractice?: () => void;
 }
 
-export default function TopicModal({ topic, onClose, onNavigate }: TopicModalProps) {
+export default function TopicModal({ topic, onClose, onNavigate, onStartQuiz, onStartPractice }: TopicModalProps) {
   // Support multiple field name variations
   const topicName = topic?.name || topic?.title || topic?.topic || 'Topic';
   const difficulty = topic?.difficulty || 'Medium';
@@ -71,7 +73,11 @@ export default function TopicModal({ topic, onClose, onNavigate }: TopicModalPro
                 description="Test your knowledge with interactive quiz battles"
                 iconColor="#3FDFD5"
                 onClick={() => {
-                  onNavigate('combat', topic);
+                  if (onStartQuiz) {
+                    onStartQuiz();
+                  } else if (onNavigate) {
+                    onNavigate('combat', topic);
+                  }
                   onClose();
                 }}
               />
@@ -81,17 +87,23 @@ export default function TopicModal({ topic, onClose, onNavigate }: TopicModalPro
                 description="Active recall practice with spaced repetition"
                 iconColor="#61210F"
                 onClick={() => {
-                  onNavigate('flashcards', topic);
+                  if (onNavigate) {
+                    onNavigate('flashcards', topic);
+                  }
                   onClose();
                 }}
               />
               <ActionCard
                 icon={Code}
-                title="Code Practice"
-                description="Solve coding challenges with hints and feedback"
-                iconColor="#3FDFD5"
+                title="Practice Editor"
+                description="Write and test code with AI assistance"
+                iconColor="#61210F"
                 onClick={() => {
-                  onNavigate('editor', topic);
+                  if (onStartPractice) {
+                    onStartPractice();
+                  } else if (onNavigate) {
+                    onNavigate('editor', topic);
+                  }
                   onClose();
                 }}
               />

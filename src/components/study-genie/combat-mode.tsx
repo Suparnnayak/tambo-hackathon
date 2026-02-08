@@ -68,6 +68,30 @@ export default function CombatMode({ topic, onComplete, onNavigate }: CombatMode
         }
       } catch (error) {
         console.error('Error loading questions:', error);
+        // Provide fallback questions when backend is unavailable
+        const fallbackQuestions = [
+          {
+            id: 'q-1',
+            question: `What is a key concept in ${topic?.name || 'this topic'}?`,
+            type: 'mcq' as const,
+            options: ['Option A', 'Option B', 'Option C', 'Option D'],
+            correctAnswer: 0,
+            difficulty: topic?.difficulty || 'medium',
+            explanation: 'This is a sample question. Connect to backend for AI-generated questions.',
+            xpReward: 50
+          },
+          {
+            id: 'q-2',
+            question: `Which statement about ${topic?.name || 'this topic'} is true?`,
+            type: 'mcq' as const,
+            options: ['Statement A', 'Statement B', 'Statement C', 'Statement D'],
+            correctAnswer: 1,
+            difficulty: topic?.difficulty || 'medium',
+            explanation: 'This is a sample question. Connect to backend for AI-generated questions.',
+            xpReward: 50
+          }
+        ];
+        setQuestions(fallbackQuestions);
         setQuestions([
           {
             id: 'q-1',
@@ -149,7 +173,7 @@ export default function CombatMode({ topic, onComplete, onNavigate }: CombatMode
           onBack: () => onNavigate('skillTree'),
         }}
       >
-        <div className="w-full h-[calc(100vh-80px)] flex items-center justify-center overflow-y-auto" style={{ backgroundColor: '#F5F5F5' }}>
+        <div className="w-full min-h-screen flex items-center justify-center py-8" style={{ backgroundColor: '#F5F5F5' }}>
           <div className="text-center">
             <div className="w-16 h-16 mx-auto mb-4 rounded-full border-4 border-[#3FDFD5] border-t-transparent animate-spin" />
             <p className="text-base font-medium" style={{ color: '#61210F' }}>
@@ -169,7 +193,7 @@ export default function CombatMode({ topic, onComplete, onNavigate }: CombatMode
           onBack: () => onNavigate('skillTree'),
         }}
       >
-        <div className="w-full h-[calc(100vh-80px)] flex items-center justify-center overflow-y-auto" style={{ backgroundColor: '#F5F5F5' }}>
+        <div className="w-full min-h-screen flex items-center justify-center py-8" style={{ backgroundColor: '#F5F5F5' }}>
           <div className="text-center">
             <p className="text-base font-medium mb-4" style={{ color: '#61210F' }}>
               No questions available
@@ -193,7 +217,7 @@ export default function CombatMode({ topic, onComplete, onNavigate }: CombatMode
         onBack: () => onNavigate('skillTree'),
       }}
     >
-      <div className="w-full h-[calc(100vh-80px)] overflow-y-auto" style={{ backgroundColor: '#F5F5F5' }}>
+      <div className="w-full min-h-screen py-8" style={{ backgroundColor: '#F5F5F5' }}>
         <div className="max-w-4xl mx-auto px-6 py-8">
           {/* Header */}
           <div className="mb-6 flex items-center justify-between">

@@ -79,8 +79,8 @@ export default function QuizGenerated({
 
       <CombatMode
         topic={topic}
-        onComplete={onComplete}
-        onNavigate={onNavigate}
+        onComplete={onComplete || (() => {})}
+        onNavigate={onNavigate || (() => {})}
       />
     </div>
   );

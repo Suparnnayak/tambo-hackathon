@@ -39,6 +39,7 @@ export interface QuizResponse {
   quiz: QuizQuestion[];
   total_questions: number;
   topics_covered: string[];
+  message?: string; // Optional fallback message
 }
 
 export interface InterviewQuestion {
@@ -183,14 +184,27 @@ class StudyGenieBackendService {
       });
 
       if (!response.ok) {
-        const error = await response.json().catch(() => ({ error: 'Unknown error' }));
-        throw new Error(error.error || 'Failed to generate quiz');
+        const error = await response.json().catch(() => ({ error: 'Backend unavailable' }));
+        console.warn('Quiz generation failed:', error);
+        // Return fallback structure instead of throwing
+        return {
+          quiz: [],
+          total_questions: 0,
+          topics_covered: [],
+          message: 'Backend unavailable. Using fallback questions.'
+        };
       }
 
       return await response.json();
     } catch (error) {
       console.error('Quiz generation error:', error);
-      throw error;
+      // Return fallback instead of throwing
+      return {
+        quiz: [],
+        total_questions: 0,
+        topics_covered: [],
+        message: 'Backend unavailable. Using fallback questions.'
+      };
     }
   }
 

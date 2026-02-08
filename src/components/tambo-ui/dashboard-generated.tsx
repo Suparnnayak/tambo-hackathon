@@ -73,7 +73,7 @@ export default function DashboardGenerated({
         </div>
       </div>
 
-      <DashboardEnhanced syllabus={syllabus} onNavigate={onNavigate} />
+      <DashboardEnhanced syllabus={syllabus} onNavigate={onNavigate || (() => {})} />
       
       {/* Render Tambo-generated recommendations */}
       {recommendations.length > 0 && (

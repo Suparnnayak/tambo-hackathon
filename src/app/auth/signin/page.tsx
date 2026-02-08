@@ -1,14 +1,28 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import SignInForm from '@/components/auth/signin-form';
 import Link from 'next/link';
 
-export default function SignInPage() {
+function SignInContent() {
   const searchParams = useSearchParams();
   const registered = searchParams.get('registered');
 
+  return (
+    <>
+      {registered && (
+        <div className="bg-green-500/10 border border-green-500/50 text-green-400 px-4 py-3 rounded-lg mb-4">
+          Account created successfully! Please sign in.
+        </div>
+      )}
+
+      <SignInForm />
+    </>
+  );
+}
+
+export default function SignInPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-950 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -20,13 +34,9 @@ export default function SignInPage() {
             <p className="text-slate-400">Sign in to continue your learning journey</p>
           </div>
 
-          {registered && (
-            <div className="bg-green-500/10 border border-green-500/50 text-green-400 px-4 py-3 rounded-lg mb-4">
-              Account created successfully! Please sign in.
-            </div>
-          )}
-
-          <SignInForm />
+          <Suspense fallback={<div className="text-center text-slate-400">Loading...</div>}>
+            <SignInContent />
+          </Suspense>
 
           <div className="mt-6 text-center">
             <p className="text-slate-400">

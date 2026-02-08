@@ -3,7 +3,7 @@
  * Handles authentication for StudyGenie 2.0
  */
 
-import NextAuth, { type NextAuthOptions } from 'next-auth';
+import NextAuth from 'next-auth';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
 import { MongoClient } from 'mongodb';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -14,7 +14,7 @@ import bcrypt from 'bcryptjs';
 const client = new MongoClient(process.env.MONGODB_URI || process.env.DATABASE_URL || 'mongodb://localhost:27017/studygenie');
 const clientPromise = client.connect();
 
-export const authOptions: NextAuthOptions = {
+const handler = NextAuth({
   adapter: MongoDBAdapter(clientPromise),
   providers: [
     CredentialsProvider({
@@ -28,28 +28,33 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        await connectDB();
-        const user = await User.findOne({ email: credentials.email }).select('+password');
+        try {
+          await connectDB();
+          const user = await User.findOne({ email: credentials.email }).select('+password');
 
-        if (!user || !user.password) {
+          if (!user || !user.password) {
+            return null;
+          }
+
+          const isPasswordValid = await bcrypt.compare(
+            String(credentials.password),
+            String(user.password)
+          );
+
+          if (!isPasswordValid) {
+            return null;
+          }
+
+          return {
+            id: user._id.toString(),
+            email: user.email,
+            name: user.name || undefined,
+            image: user.image || undefined,
+          };
+        } catch (error) {
+          console.error('Auth error:', error);
           return null;
         }
-
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-
-        if (!isPasswordValid) {
-          return null;
-        }
-
-        return {
-          id: user._id.toString(),
-          email: user.email,
-          name: user.name || undefined,
-          image: user.image || undefined,
-        };
       },
     }),
   ],
@@ -58,7 +63,6 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: '/auth/signin',
-    signUp: '/auth/signup',
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -74,8 +78,6 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-};
-
-const handler = NextAuth(authOptions);
+}) as any;
 
 export { handler as GET, handler as POST };

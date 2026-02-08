@@ -148,8 +148,8 @@ export default function SyllabusUpload({ onUpload, onNavigate }: SyllabusUploadP
         onBack: () => onNavigate('landing'),
       }}
     >
-      <div className="w-full h-[calc(100vh-80px)] overflow-y-auto" style={{ backgroundColor: '#F5F5F5' }}>
-        <div className="max-w-4xl mx-auto px-6 py-12">
+      <div className="w-full min-h-screen py-12" style={{ backgroundColor: '#F5F5F5' }}>
+        <div className="max-w-4xl mx-auto px-6">
           <div className="mb-8 text-center">
             <h1 className="text-3xl font-bold mb-2" style={{ color: '#61210F' }}>
               Upload Your Syllabus

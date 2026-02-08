@@ -79,7 +79,7 @@ export function calculateNextReview(
  * @param flashcards Array of flashcards
  * @returns Flashcards that are due for review
  */
-export function getDueFlashcards<T extends { nextReview: Date }>(
+export function getDueFlashcards<T extends { nextReview: Date; mastered?: boolean }>(
   flashcards: T[]
 ): T[] {
   const now = new Date();

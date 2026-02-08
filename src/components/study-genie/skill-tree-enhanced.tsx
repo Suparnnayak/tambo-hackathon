@@ -79,7 +79,7 @@ export default function SkillTreeEnhanced({ syllabus, onNavigate, onTopicSelect 
         subtitle: 'Master each node to unlock your full potential',
       }}
     >
-      <div className="w-full h-[calc(100vh-80px)] overflow-y-auto" style={{ backgroundColor: '#F5F5F5' }}>
+      <div className="w-full min-h-screen py-8" style={{ backgroundColor: '#F5F5F5' }}>
         <div className="max-w-7xl mx-auto px-6 py-8">
           {/* Header Stats */}
           <div className="mb-8 flex items-center justify-between">

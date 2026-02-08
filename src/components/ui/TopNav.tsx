@@ -38,7 +38,7 @@ export default function TopNav({
             {subtitle && <p className="text-sm text-white/70">{subtitle}</p>}
           </div>
         )}
-        {!title && (
+        {!title && !showBack && (
           <>
             <span className="text-2xl">📚</span>
             <h1 className="text-2xl font-bold text-white">StudyGenie</h1>
@@ -57,7 +57,7 @@ export default function TopNav({
             <X size={20} />
           </button>
         )}
-        {!subtitle && !showClose && (
+        {!subtitle && !showClose && !showBack && (
           <p className="text-white/80 text-sm">Turn your syllabus into a learning adventure</p>
         )}
       </div>

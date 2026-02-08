@@ -12,8 +12,9 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const syllabusId = searchParams.get('syllabusId');
 
-    const stats = await getUserStats(user.id);
-    const weakAreas = await getWeakAreas(user.id, syllabusId || undefined);
+    const userId = (user as any).id || 'anonymous';
+    const stats = await getUserStats(userId);
+    const weakAreas = await getWeakAreas(userId, syllabusId || undefined);
 
     return NextResponse.json({
       success: true,

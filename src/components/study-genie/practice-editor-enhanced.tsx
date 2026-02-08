@@ -73,7 +73,7 @@ export default function PracticeEditorEnhanced({ topic, onNavigate }: PracticeEd
           onBack: () => onNavigate('skillTree'),
         }}
       >
-        <div className="w-full h-[calc(100vh-80px)] flex items-center justify-center overflow-y-auto" style={{ backgroundColor: '#F5F5F5' }}>
+        <div className="w-full min-h-screen flex items-center justify-center py-8" style={{ backgroundColor: '#F5F5F5' }}>
           <div className="text-center">
             <div className="w-16 h-16 mx-auto mb-4 rounded-full border-4 border-[#3FDFD5] border-t-transparent animate-spin" />
             <p className="text-base font-medium" style={{ color: '#61210F' }}>
@@ -92,7 +92,7 @@ export default function PracticeEditorEnhanced({ topic, onNavigate }: PracticeEd
         onBack: () => onNavigate('skillTree'),
       }}
     >
-      <div className="w-full h-[calc(100vh-80px)] overflow-y-auto" style={{ backgroundColor: '#F5F5F5' }}>
+      <div className="w-full min-h-screen py-8" style={{ backgroundColor: '#F5F5F5' }}>
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left: Challenge Description */}

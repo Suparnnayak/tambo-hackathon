@@ -78,15 +78,15 @@ export default function StudyGeniePage() {
     
     console.log('[Page] ✅ Processed syllabus:', {
       curriculum: processedData.curriculum,
-      unitsCount: processedData.units.length,
-      totalTopics: processedData.units.reduce((sum: number, u: any) => sum + (u.topics?.length || 0), 0),
-      units: processedData.units.map((u: any) => ({
+      unitsCount: processedData.units?.length || 0,
+      totalTopics: processedData.units?.reduce((sum: number, u: any) => sum + (u.topics?.length || 0), 0) || 0,
+      units: processedData.units?.map((u: any) => ({
         name: u.name,
-        topicsCount: u.topics.length
-      }))
+        topicCount: u.topics?.length || 0
+      })) || []
     });
     
-    if (processedData.units.length === 0) {
+    if (!processedData.units || processedData.units.length === 0) {
       console.error('[Page] ❌ No units found in syllabus!');
       alert('⚠️ No topics found in the uploaded syllabus. Please check the PDF content.');
       return;
@@ -157,7 +157,7 @@ export default function StudyGeniePage() {
   };
 
   return (
-    <div className="w-full h-screen bg-[#3FDFD5]/5 overflow-hidden" style={{ backgroundColor: '#f5f5f5' }}>
+    <div className="w-full min-h-screen bg-[#3FDFD5]/5" style={{ backgroundColor: '#f5f5f5' }}>
       {/* Navigation - Hide on landing page */}
       {currentView !== 'landing' && (
         <nav className="bg-[#61210F] backdrop-blur-lg border-b border-[#61210F]/20 shadow-sm px-6 py-4 flex items-center justify-between">
@@ -191,7 +191,7 @@ export default function StudyGeniePage() {
       )}
 
       {/* Main Content */}
-      <div className={`w-full ${currentView === 'landing' ? 'h-screen' : 'h-[calc(100vh-80px)]'} overflow-hidden`}>
+      <div className="w-full">
         {currentView === 'landing' && (
           <LandingPage 
             onStart={() => setCurrentView('upload')}
@@ -243,7 +243,7 @@ export default function StudyGeniePage() {
 
         {currentView === 'editor' && selectedTopic && (
           <PracticeEditorEnhanced 
-            topic={selectedTopic.name || selectedTopic.title || selectedTopic.topic || selectedTopic} 
+            topic={selectedTopic.name || (selectedTopic as any).title || (selectedTopic as any).topic || selectedTopic} 
             onNavigate={(view) => {
               if (view === 'skillTree') {
                 setSelectedTopic(null);

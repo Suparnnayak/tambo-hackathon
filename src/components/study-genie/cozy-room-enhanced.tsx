@@ -31,6 +31,34 @@ export default function CozyRoomEnhanced({ syllabus, onNavigate }: CozyRoomEnhan
   const [isEditingTask, setIsEditingTask] = useState(false);
   const [musicEnabled, setMusicEnabled] = useState(true);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Initialize audio
+  useEffect(() => {
+    audioRef.current = new Audio('https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3');
+    audioRef.current.loop = true;
+    audioRef.current.volume = 0.3;
+    
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  // Handle music toggle
+  useEffect(() => {
+    if (audioRef.current) {
+      if (musicEnabled) {
+        audioRef.current.play().catch(err => {
+          console.log('Audio autoplay prevented:', err);
+        });
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [musicEnabled]);
 
   // Timer logic
   useEffect(() => {
@@ -103,7 +131,7 @@ export default function CozyRoomEnhanced({ syllabus, onNavigate }: CozyRoomEnhan
         onBack: () => onNavigate('dashboard'),
       }}
     >
-      <div className="w-full h-[calc(100vh-80px)] overflow-y-auto" style={{ backgroundColor: '#F5F5F5' }}>
+      <div className="w-full min-h-screen py-8" style={{ backgroundColor: '#F5F5F5' }}>
         <div className="max-w-4xl mx-auto px-6 py-12">
           {/* Header */}
           <div className="mb-8 text-center">

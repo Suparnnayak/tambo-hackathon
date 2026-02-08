@@ -75,7 +75,7 @@ export default function SkillTreeGenerated({
 
       <SkillTreeEnhanced
         syllabus={syllabus}
-        onNavigate={onNavigate}
+        onNavigate={onNavigate || (() => {})}
         onTopicSelect={onTopicSelect}
       />
     </div>

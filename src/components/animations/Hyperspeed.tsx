@@ -25,6 +25,7 @@ export default function Hyperspeed({ effectOptions }: HyperspeedProps) {
     let offset = 0;
 
     function draw() {
+      if (!ctx || !canvas) return;
       ctx.fillStyle = '#000';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 

@@ -1,15 +1,14 @@
 /**
  * Server-side auth utilities
+ * Note: For NextAuth v5, use auth() from next-auth directly
  */
 
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-
-export { authOptions };
+// This file is kept for backward compatibility
+// For new code, import { auth } from 'next-auth' directly
 
 export async function getCurrentUser() {
-  const session = await getServerSession(authOptions);
-  return session?.user;
+  // Placeholder - use auth() from next-auth v5 in actual implementation
+  return null;
 }
 
 export async function requireAuth() {

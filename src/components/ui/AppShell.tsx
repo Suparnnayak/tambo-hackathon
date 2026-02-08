@@ -18,9 +18,9 @@ interface AppShellProps {
 
 export default function AppShell({ children, showNav = true, navProps }: AppShellProps) {
   return (
-    <div className="h-screen flex flex-col overflow-hidden" style={{ backgroundColor: '#F5F5F5' }}>
+    <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#F5F5F5' }}>
       {showNav && <TopNav {...navProps} />}
-      <main className="flex-1 overflow-hidden">
+      <main className="flex-1">
         {children}
       </main>
     </div>

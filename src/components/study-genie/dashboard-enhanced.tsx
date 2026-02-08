@@ -66,17 +66,6 @@ export default function DashboardEnhanced({ syllabus, onNavigate }: DashboardEnh
     { id: 4, title: 'Review 5 flashcards', progress: 5, total: 5, xp: 80, completed: true }
   ]);
 
-  // Simulate focus meter changes
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPlayerStats(prev => ({
-        ...prev,
-        focus: Math.min(100, Math.max(0, prev.focus + (Math.random() > 0.5 ? 1 : -1)))
-      }));
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
   // Calculate stats
   const xpPercentage = (playerStats.xp / playerStats.totalXP) * 100;
   const completionPercentage = (playerStats.skillsCompleted / playerStats.totalSkills) * 100;
@@ -108,7 +97,7 @@ export default function DashboardEnhanced({ syllabus, onNavigate }: DashboardEnh
         onClose: () => onNavigate('landing'),
       }}
     >
-      <div className="w-full h-[calc(100vh-80px)] overflow-y-auto" style={{ backgroundColor: '#F5F5F5' }}>
+      <div className="w-full min-h-screen py-8" style={{ backgroundColor: '#F5F5F5' }}>
         {/* Hero Section with Player Card */}
         <div className="relative overflow-hidden">
         <div className="relative px-4 sm:px-8 py-8 max-w-7xl mx-auto">

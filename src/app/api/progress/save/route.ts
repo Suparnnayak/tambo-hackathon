@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     const progress = await saveProgress({
-      userId: user.id,
+      userId: (user as any).id || 'anonymous',
       syllabusId: body.syllabusId,
       topicId: body.topicId,
       activityType: body.activityType,

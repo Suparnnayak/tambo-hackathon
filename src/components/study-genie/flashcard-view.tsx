@@ -118,7 +118,7 @@ export default function FlashcardView({ topic, onComplete, onNavigate }: Flashca
           onBack: () => onNavigate('skillTree'),
         }}
       >
-        <div className="w-full h-[calc(100vh-80px)] flex items-center justify-center overflow-y-auto" style={{ backgroundColor: '#F5F5F5' }}>
+        <div className="w-full min-h-screen flex items-center justify-center py-8" style={{ backgroundColor: '#F5F5F5' }}>
           <div className="text-center">
             <div className="w-16 h-16 mx-auto mb-4 rounded-full border-4 border-[#3FDFD5] border-t-transparent animate-spin" />
             <p className="text-base font-medium" style={{ color: '#61210F' }}>
@@ -138,7 +138,7 @@ export default function FlashcardView({ topic, onComplete, onNavigate }: Flashca
           onBack: () => onNavigate('skillTree'),
         }}
       >
-        <div className="w-full h-[calc(100vh-80px)] flex items-center justify-center overflow-y-auto" style={{ backgroundColor: '#F5F5F5' }}>
+        <div className="w-full min-h-screen flex items-center justify-center py-8" style={{ backgroundColor: '#F5F5F5' }}>
           <div className="text-center">
             <p className="text-base font-medium mb-4" style={{ color: '#61210F' }}>
               No flashcards available
@@ -162,7 +162,7 @@ export default function FlashcardView({ topic, onComplete, onNavigate }: Flashca
         onBack: () => onNavigate('skillTree'),
       }}
     >
-      <div className="w-full h-[calc(100vh-80px)] overflow-y-auto" style={{ backgroundColor: '#F5F5F5' }}>
+      <div className="w-full min-h-screen py-8" style={{ backgroundColor: '#F5F5F5' }}>
         <div className="max-w-3xl mx-auto px-6 py-8">
           {/* Progress */}
           <div className="mb-6">
@@ -263,12 +263,7 @@ export default function FlashcardView({ topic, onComplete, onNavigate }: Flashca
               </SecondaryButton>
               <SecondaryButton
                 onClick={handleDifficult}
-                className="flex-1"
-                style={{
-                  backgroundColor: '#FEE2E2',
-                  borderColor: '#FCA5A5',
-                  color: '#991B1B',
-                }}
+                className="flex-1 bg-red-50 border-red-300 text-red-800 hover:bg-red-100"
               >
                 <XCircle size={18} className="inline mr-2" />
                 Difficult

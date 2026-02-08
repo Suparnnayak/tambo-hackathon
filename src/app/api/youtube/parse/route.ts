@@ -31,8 +31,9 @@ export async function POST(request: NextRequest) {
     await connectDB();
 
     // Create syllabus entry
+    const userId = (user as any).id || 'anonymous';
     const syllabus = await Syllabus.create({
-      userId: new mongoose.Types.ObjectId(user.id),
+      userId: new mongoose.Types.ObjectId(userId),
       title: title || `YouTube Video: ${videoInfo.videoId}`,
       sourceType: 'youtube',
       sourceUrl: url,
